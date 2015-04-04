@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/Results"
+    android:focusable="true">
+
+    <TextView
+        android:id="@+id/tvPollQ"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"/>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:shrinkColumns="*"
+        android:stretchColumns="*">
+
+
+
+
+
+        <TableRow
+            android:id="@+id/topRow">
+            <TextView
+                android:text="Answers"
+                android:textSize="20sp"/>
+            <TextView
+                android:text="Frequency"
+                android:textSize="20sp"/>
+            <TextView
+                android:text="Percentage"
+                android:textSize="20sp"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:layout_height="5dp"/>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/row1">
+            <TextView
+                android:id="@+id/row1A"
+                android:textSize="20sp"/>
+            <TextView
+                android:id="@+id/row1F"
+                android:textSize="20sp"/>
+            <TextView
+                android:id="@+id/row1P"
+                android:textSize="20sp"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/row2A"
+                android:textSize="20sp"/>
+            <TextView
+                android:id="@+id/row2F"
+                android:textSize="20sp"/>
+            <TextView
+                android:id="@+id/row2P"
+                android:textSize="20sp"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/row3A"
+                android:textSize="20sp"/>
+            <TextView
+                android:id="@+id/row3F"
+                android:textSize="20sp"/>
+            <TextView
+                android:id="@+id/row3P"
+                android:textSize="20sp"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/row4A"
+                android:textSize="20sp"/>
+            <TextView
+                android:id="@+id/row4F"
+                android:textSize="20sp"/>
+            <TextView
+                android:id="@+id/row4P"
+                android:textSize="20sp"/>
+        </TableRow>
+
+
+
+        </TableLayout>
+
+</LinearLayout>

@@ -1,0 +1,45 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/presenter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="presenterButton"
+            android:text="Start a presentation?"
+            android:src="@drawable/speakers"
+            android:layout_weight="1">
+
+        </ImageButton>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:text="Start Presentation"
+            android:gravity="center"/>
+
+
+        <ImageButton
+            android:id="@+id/audience"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="audienceButton"
+            android:text="Connect to a presenter?"
+            android:src="@drawable/hands"
+            android:layout_weight="1">
+
+        </ImageButton>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:text="Participate"
+            android:gravity="center"/>
+
+
+</LinearLayout>

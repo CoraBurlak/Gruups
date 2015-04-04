@@ -1,0 +1,54 @@
+<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:id="@+id/tabHost2"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentStart="true">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+
+        <TabWidget
+            android:id="@android:id/tabs"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"></TabWidget>
+
+        <FrameLayout
+            android:id="@android:id/tabcontent"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+            <LinearLayout
+                android:orientation="vertical"
+                android:icon= "@drawable/ic_launcher"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/Question">
+                <include layout="@layout/activity_receive" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:icon= "@drawable/ic_launcher"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/Polling">
+
+                <include layout="@layout/activity_startpoll" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:icon="@drawable/ic_launcher"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/Results"
+                android:focusable="true">
+
+                <include layout="@layout/settingstab" />
+            </LinearLayout>
+        </FrameLayout>
+    </LinearLayout>
+</TabHost>
+
