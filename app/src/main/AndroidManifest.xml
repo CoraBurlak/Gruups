@@ -23,18 +23,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Send"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Holo"
-            android:parentActivityName=".Start" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.gruups.Send" />
-        </activity>
-        <activity
             android:name=".Receive"
-            android:label="Gruups"
+            android:label="Grüüps"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo"
             android:parentActivityName=".Start" >
@@ -44,27 +34,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:label="Gruups"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Holo"
-            android:parentActivityName=".Start" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.gruups.Receive" />
-        </activity>
-        <activity
-            android:name=".Receive$PollStart"
-            android:label="Gruups"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Holo"
-            android:parentActivityName=".Receive" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.gruups.Receive" />
-        </activity>
-        <activity
-            android:name=".MainActivity$pollingActivity"
-            android:label="Gruups"
+            android:label="Grüüps"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo"
             android:parentActivityName=".Start" >
@@ -74,7 +44,7 @@
         </activity>
         <activity
             android:name=".IPEnter"
-            android:label="Gruups"
+            android:label="Grüüps"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo"
             android:parentActivityName=".Start" >
@@ -82,8 +52,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.gruups.Receive" />
         </activity>
-        <service
-            android:name =".MessageTransfer" />
     </application>
 
 </manifest>

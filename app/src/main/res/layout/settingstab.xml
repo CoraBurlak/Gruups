@@ -10,7 +10,8 @@
         android:id="@+id/tvPollQ"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:text="No poll found"/>
 
     <TableLayout
         android:layout_width="match_parent"
@@ -26,13 +27,16 @@
             android:id="@+id/topRow">
             <TextView
                 android:text="Answers"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                android:gravity="center"/>
             <TextView
                 android:text="Frequency"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                android:gravity="center"/>
             <TextView
                 android:text="Percentage"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                android:gravity="center"/>
         </TableRow>
 
         <TableRow>

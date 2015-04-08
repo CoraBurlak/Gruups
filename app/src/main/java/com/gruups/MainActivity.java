@@ -56,15 +56,15 @@ public class MainActivity extends Activity{
         @Override
         public void onReceive(Context context, Intent intent){
             if (intent.getAction().equals(UNKNOWN_HOST)) {
-                Toast.makeText(getApplicationContext(), "Unknown Host Error", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Unknown Host Error", Toast.LENGTH_SHORT).show();
                 finish();
             }
             if (intent.getAction().equals(IO_EXCEPTION)){
-                Toast.makeText(getApplicationContext(), "IO Exception", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "IO Exception", Toast.LENGTH_SHORT).show();
                 finish();
             }
             if (intent.getAction().equals(MESSAGE_SENT))
-                Toast.makeText(getApplicationContext(), "Message Sent", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Message Sent", Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -174,11 +174,14 @@ public class MainActivity extends Activity{
 
     public void sendMessage(View view) {
         View focusView = null;
+        ArrayList<String> toSend = new ArrayList<String>();
+        toSend.clear();
 
         Log.d(TAG, "Running sendMessage");
 
         //Get question text
         EditText editText = (EditText)findViewById(R.id.edit_message);
+        editText.setError(null);
         Log.d(TAG, "Message from text field should now be captured in editText");
         String message = editText.getText().toString();
         if (!TextUtils.isEmpty(message)) {
@@ -195,7 +198,6 @@ public class MainActivity extends Activity{
             }
             editText.setText("");
 
-            user_message.add(message);
             Global.getInstance().global_message.add(message);
 
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
@@ -214,6 +216,8 @@ public class MainActivity extends Activity{
 
     public void sendMessage() {
         View focusView = null;
+        ArrayList<String> toSend = new ArrayList<String>();
+        toSend.clear();
 
         //Let me know this function is actually executing
         Log.d(TAG, "Running sendMessage");
@@ -236,8 +240,6 @@ public class MainActivity extends Activity{
                 Log.d(TAG, "newQuestion execution failed. Reason: " + e.getMessage());
             }
             editText.setText("");
-
-            user_message.add(message);
 
             Global.getInstance().global_message.add(message);
 
@@ -310,9 +312,11 @@ public class MainActivity extends Activity{
 
         @Override
         protected void onPostExecute(String result) {
-            Log.d(TAG, "onPostExecute() has been called");
-            Toast.makeText(context, result, Toast.LENGTH_LONG).show();
-            Log.d(TAG, "Toast.makeText(result) has been called");
+            if (result.equals(GRUUPS_QUESTION_SEND_FAIL)|result.equals(GRUUPS_SERVER_CONNECT_FAIL)) {
+                Log.d(TAG, "onPostExecute() has been called");
+                Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "Toast.makeText(result) has been called");
+            }
         }
     }
 
@@ -415,6 +419,7 @@ public class MainActivity extends Activity{
                     = "Failed to connect to Gruups Server";
             public final static String GRUUPS_QUESTION_SEND_SUCCESS = "You have submitted a question!";
             public final static String GRUUPS_QUESTION_SEND_FAIL = "Failed to send question";
+            public final static String GRUUPS_PULL_POLL_FAIL = "Failed to pull poll";
 
             PullPollTask(String ipAdr, int portNum, Context context) {
                 this.ip = ipAdr;
@@ -441,14 +446,16 @@ public class MainActivity extends Activity{
                 Log.d(TAG, "GruupsClient.AudienceSubmitQuestion() has returned false");
                 gruupsClient.disconnect();
                 Log.d(TAG, "GruupsClient.disconnect() has been called");
-                return GRUUPS_QUESTION_SEND_FAIL;
+                return GRUUPS_PULL_POLL_FAIL;
             }
 
             @Override
             protected void onPostExecute(String result) {
-                Log.d(TAG, "onPostExecute() has been called");
-                Toast.makeText(context, result, Toast.LENGTH_LONG).show();
-                Log.d(TAG, "Toast.makeText(result) has been called");
+                if(result.equals(GRUUPS_PULL_POLL_FAIL)|result.equals(GRUUPS_SERVER_CONNECT_FAIL)) {
+                    Log.d(TAG, "onPostExecute() has been called");
+                    Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "Toast.makeText(result) has been called");
+                }
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -470,6 +477,7 @@ public class MainActivity extends Activity{
                     = "Failed to connect to Gruups Server";
             public final static String GRUUPS_QUESTION_SEND_SUCCESS = "You have submitted a question!";
             public final static String GRUUPS_QUESTION_SEND_FAIL = "Failed to send question";
+            public final static String GRUUPS_ANSWER_POLL_FAIL = "Failed to answer poll";
 
             AnswerPollTask(String ipAdr, int portNum, Context context, String s) {
                 this.ip = ipAdr;
@@ -496,14 +504,16 @@ public class MainActivity extends Activity{
                 Log.d(TAG, "GruupsClient.AudienceSubmitQuestion() has returned false");
                 gruupsClient.disconnect();
                 Log.d(TAG, "GruupsClient.disconnect() has been called");
-                return GRUUPS_QUESTION_SEND_FAIL;
+                return GRUUPS_ANSWER_POLL_FAIL;
             }
 
             @Override
             protected void onPostExecute(String result) {
-                Log.d(TAG, "onPostExecute() has been called");
-                Toast.makeText(context, result, Toast.LENGTH_LONG).show();
-                Log.d(TAG, "Toast.makeText(result) has been called");
+                if (result.equals(GRUUPS_ANSWER_POLL_FAIL)|result.equals(GRUUPS_SERVER_CONNECT_FAIL)) {
+                    Log.d(TAG, "onPostExecute() has been called");
+                    Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "Toast.makeText(result) has been called");
+                }
             }
         }
 
@@ -572,6 +582,7 @@ public class MainActivity extends Activity{
 
         public final static String GRUUPS_SERVER_CONNECT_FAIL
                 = "Failed to connect to Gruups Server";
+        public final static String GRUUPS_PULL_POLL_RESULTS_FAIL = "Failed to pull poll results";
 
         PollResultsTask(String ipAdr, int portNum, Context context) {
             this.ip = ipAdr;
@@ -589,7 +600,9 @@ public class MainActivity extends Activity{
             }
 
             resultsFromServer = gruupsClient.presenterPullPollResults();
-
+            if (resultsFromServer.equals("")){
+                return GRUUPS_PULL_POLL_RESULTS_FAIL;
+            }
             Log.d(TAG, "GruupsClient.AudienceSubmitQuestion() has returned false");
             gruupsClient.disconnect();
             Log.d(TAG, "GruupsClient.disconnect() has been called");
@@ -598,9 +611,11 @@ public class MainActivity extends Activity{
 
         @Override
         public void onPostExecute(String result) {
-            Log.d(TAG, "onPostExecute() has been called");
-            Toast.makeText(context, result, Toast.LENGTH_LONG).show();
-            Log.d(TAG, "Toast.makeText(result) has been called");
+            if (result.equals(GRUUPS_PULL_POLL_RESULTS_FAIL)|result.equals(GRUUPS_SERVER_CONNECT_FAIL)) {
+                Log.d(TAG, "onPostExecute() has been called");
+                Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "Toast.makeText(result) has been called");
+            }
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {

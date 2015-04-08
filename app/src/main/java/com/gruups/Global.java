@@ -16,9 +16,5 @@ public final class Global extends Application {
     public static Global getInstance() {
         return instance;
     }
-    /*
-    public void setList(List<String> global_message) {
-        this.global_message = global_message;
-    }*/
 
 }

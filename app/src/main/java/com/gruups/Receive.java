@@ -205,7 +205,7 @@ public class Receive extends Activity {
         @Override
         protected void onPostExecute(String result) {
             if(result.equals(GRUUPS_SERVER_CONNECT_FAIL)) {
-                Toast.makeText(context, GRUUPS_SERVER_CONNECT_FAIL, Toast.LENGTH_LONG);
+                Toast.makeText(context, GRUUPS_SERVER_CONNECT_FAIL, Toast.LENGTH_SHORT).show();
             }
             Log.d(TAG, result);
         }
@@ -272,6 +272,9 @@ public class Receive extends Activity {
 
         public void startPoll(View view){
             View focusView = null;
+            eQuestion.setError(null);
+            et0.setError(null);
+            et1.setError(null);
             ip = DOPEFISH_NET;
             port = DOPEFISH_NET_PORT;
             if(TextUtils.isEmpty(eQuestion.getText().toString())){
@@ -292,7 +295,7 @@ public class Receive extends Activity {
             }
             String IPnull = "IP is null";
             if (ip == null){
-                Toast.makeText(this, IPnull, Toast.LENGTH_LONG).show();
+                Toast.makeText(this, IPnull, Toast.LENGTH_SHORT).show();
                 finish();
             }
 
@@ -328,6 +331,8 @@ public class Receive extends Activity {
                     = "Failed to connect to Gruups Server";
             public final static String GRUUPS_QUESTION_SEND_SUCCESS = "You have submitted a question!";
             public final static String GRUUPS_QUESTION_SEND_FAIL = "Failed to send question";
+            public final static String GRUUPS_START_POLL_FAIL = "Failed to start poll";
+
 
             StartPollTask(String ipAdr, int portNum, Context context) {
                 this.ip = ipAdr;
@@ -354,14 +359,27 @@ public class Receive extends Activity {
                 Log.d(TAG, "GruupsClient.AudienceSubmitQuestion() has returned false");
                 gruupsClient.disconnect();
                 Log.d(TAG, "GruupsClient.disconnect() has been called");
-                return GRUUPS_QUESTION_SEND_FAIL;
+                return GRUUPS_START_POLL_FAIL;
             }
 
             @Override
             public void onPostExecute(String result) {
-                Log.d(TAG, "onPostExecute() has been called");
-                Toast.makeText(context, result, Toast.LENGTH_LONG).show();
-                Log.d(TAG, "Toast.makeText(result) has been called");
+                if (result.equals(GRUUPS_START_POLL_FAIL)|result.equals(GRUUPS_SERVER_CONNECT_FAIL)) {
+                    Log.d(TAG, "onPostExecute() has been called");
+                    Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "Toast.makeText(result) has been called");
+                }else
+                Receive.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        eQuestion.setText("");
+                        et0.setText("");
+                        et1.setText("");
+                        et2.setText("");
+                        et3.setText("");
+                    }
+                });
+
             }
         }
 
@@ -373,6 +391,7 @@ public class Receive extends Activity {
 
             public final static String GRUUPS_SERVER_CONNECT_FAIL
                     = "Failed to connect to Gruups Server";
+            public final static String GRUUPS_PULL_POLL_FAIL = "Failed to pull poll results";
 
             PollResultsTask(String ipAdr, int portNum, Context context) {
                 this.ip = ipAdr;
@@ -390,6 +409,9 @@ public class Receive extends Activity {
                 }
 
                 resultsFromServer = gruupsClient.presenterPullPollResults();
+                if (resultsFromServer.equals("")){
+                    return GRUUPS_PULL_POLL_FAIL;
+                }
 
                 Log.d(TAG, "GruupsClient.AudienceSubmitQuestion() has returned false");
                 gruupsClient.disconnect();
@@ -399,9 +421,11 @@ public class Receive extends Activity {
 
             @Override
             public void onPostExecute(String result) {
-                Log.d(TAG, "onPostExecute() has been called");
-                Toast.makeText(context, result, Toast.LENGTH_LONG).show();
-                Log.d(TAG, "Toast.makeText(result) has been called");
+                if (result.equals(GRUUPS_PULL_POLL_FAIL)|result.equals(GRUUPS_SERVER_CONNECT_FAIL)) {
+                    Log.d(TAG, "onPostExecute() has been called");
+                    Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "Toast.makeText(result) has been called");
+                }
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
